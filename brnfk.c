@@ -5,33 +5,7 @@
 #include <regex.h>
 
 char garden[30000] = {0}; char *plant = garden;
-typedef struct instruction{
-    char type;
-    struct instruction* next;
-    struct instruction* jump;
-}instruction;
-instruction* head = NULL;
-instruction* ii = NULL;
-// check parens
-int mirror(char* s) {
-    if (strlen(s)==0) return 0;
-    if (*s == '[') { return mirror(s+1) +1;
-    }else if (*s == ']') {return mirror(s+1)-1;}
-    return 0;
-}
-// matches parens together
-int mirrormatch(char* s,int n) {
-    if (strlen(s)==0) return n;
-    if (*s == '[') { 
-        *s = abs(n)+49;
-        return mirrormatch(s+1,n+1);
-    }else if (*s == ']') {
-        *s = abs(n)+48;
-        return mirrormatch(s+1,n-1);
-    }
-    else mirrormatch(s+1,n);
-    return n;
-}
+
 // returns the string after the match of the first paren
 char* mirrorfind(char* s,int n) {
     if (strlen(s)==0) return "a";
@@ -43,7 +17,7 @@ char* mirrorfind(char* s,int n) {
     }
     else return mirrorfind(s+1,n);
 }
-// +++[->+++[-p]<]
+// +++ > ++++ < [>[->+>+<<]>[-<+>]<<-]>>>@
 
 void brainfuck(char* s, char* tape) {
     if (strlen(s)==0) return;
